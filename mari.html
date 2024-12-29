@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Évaluation d'un programme de formation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        textarea, select, input[type="text"], input[type="radio"], input[type="submit"] {
+            margin-top: 5px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        input[type="radio"] {
+            width: auto;
+        }
+        input[type="submit"] {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+        #modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: none;
+            max-width: 400px;
+            text-align: center;
+        }
+        #modal h2 {
+            margin-bottom: 20px;
+        }
+        #modal button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #modal button:hover {
+            background-color: #0056b3;
+        }
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Évaluation d'un programme de formation</h1>
+    <form id="evaluationForm">
+        <label>Âge :</label>
+        <select name="age" required>
+            <option value="">Sélectionnez votre tranche d'âge</option>
+            <option value="moins de 20 ans">Moins de 20 ans</option>
+            <option value="20-30 ans">20-30 ans</option>
+            <option value="31-40 ans">31-40 ans</option>
+            <option value="plus de 40 ans">Plus de 40 ans</option>
+        </select>
+
+        <label>Sexe :</label>
+        <input type="radio" name="gender" value="Homme" required> Homme
+        <input type="radio" name="gender" value="Femme"> Femme
+
+        <label>Votre profession :</label>
+        <input type="text" name="profession" placeholder="Entrez votre profession" required>
+
+        <label>1. Les objectifs du programme étaient-ils clairs ?</label>
+        <select name="objectives" required>
+            <option value="Très clairs">Très clairs</option>
+            <option value="Clairs">Clairs</option>
+            <option value="Pas clairs">Pas clairs</option>
+            <option value="Pas du tout clairs">Pas du tout clairs</option>
+        </select>
+
+        <label>2. Comment évaluez-vous la qualité du contenu de la formation ?</label>
+        <select name="contentQuality" required>
+            <option value="Excellent">Excellent</option>
+            <option value="Très bon">Très bon</option>
+            <option value="Bon">Bon</option>
+            <option value="Acceptable">Acceptable</option>
+            <option value="Faible">Faible</option>
+        </select>
+
+        <label>3. Avez-vous trouvé les supports pédagogiques adéquats ?</label>
+        <select name="materials" required>
+            <option value="Oui, totalement">Oui, totalement</option>
+            <option value="Oui, partiellement">Oui, partiellement</option>
+            <option value="Non">Non</option>
+        </select>
+
+        <label>Commentaires supplémentaires :</label>
+        <textarea name="comments" rows="4" placeholder="Vos remarques ici..."></textarea>
+
+        <input type="submit" value="Soumettre">
+    </form>
+
+    <div id="overlay"></div>
+    <div id="modal">
+        <h2>Résultats du questionnaire</h2>
+        <pre id="resultContent"></pre>
+        <button id="closeModal">Fermer</button>
+    </div>
+
+    <script>
+        document.getElementById("evaluationForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            document.getElementById("resultContent").textContent = JSON.stringify(data, null, 2);
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("modal").style.display = "block";
+        });
+
+        document.getElementById("closeModal").addEventListener("click", function() {
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("modal").style.display = "none";
+        });
+    </script>
+</body>
+</html>
